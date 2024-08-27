@@ -57,3 +57,4 @@ for image_path in glob(os.path.join(source_dir, '**', '*.*'), recursive=True):
         print(f'Saved {name} transformed image to {save_path}')
 
 print('Processing completed.')
+
