@@ -1,2 +1,2 @@
-"# rice_disease_detection" 
+# rice_disease_detection
  
