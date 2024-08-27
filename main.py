@@ -8,7 +8,7 @@ import streamlit as st
 
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = "model/rice_model.h5"
+model_path = "model/rice_model_new.h5"
 # Load the pre-trained model
 model = tf.keras.models.load_model(model_path)
 
@@ -58,3 +58,4 @@ if uploaded_image is not None:
             # Preprocess the uploaded image and predict the class
             prediction = predict_image_class(model, uploaded_image, class_indices)
             st.success(f'Prediction: {str(prediction)}')
+            
