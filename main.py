@@ -59,3 +59,4 @@ if uploaded_image is not None:
             prediction = predict_image_class(model, uploaded_image, class_indices)
             st.success(f'Prediction: {str(prediction)}')
             
+            
