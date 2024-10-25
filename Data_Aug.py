@@ -22,8 +22,8 @@ transformations = {
 }
 
 # Define source and destination directories
-source_dir = 'dataset\Original_dataset\Sheath Blight'
-destination_dir = 'dataset\Augmented_dataset\Sheath Blight_Augmented'
+source_dir = 'dataset/Original_dataset/Sheath Blight'
+destination_dir = 'dataset/Augmented_dataset/Sheath Blight'
 
 # Create destination directory if it does not exist
 os.makedirs(destination_dir, exist_ok=True)
@@ -46,15 +46,11 @@ for image_path in glob(os.path.join(source_dir, '**', '*.*'), recursive=True):
         # Convert the augmented image back to a Pillow image
         augmented_image_pil = Image.fromarray(augmented_image)
 
-        # Create a directory for each transformation
-        transform_dir = os.path.join(destination_dir, name)
-        os.makedirs(transform_dir, exist_ok=True)
-
-        # Save the transformed image
+        # Save the transformed image with a unique filename
         filename = os.path.basename(image_path)
-        save_path = os.path.join(transform_dir, f'{os.path.splitext(filename)[0]}_{name}_transformed.jpg')
+        save_path = os.path.join(destination_dir, f'{os.path.splitext(filename)[0]}_{name}_transformed.jpg')
         augmented_image_pil.save(save_path)
         print(f'Saved {name} transformed image to {save_path}')
 
 print('Processing completed.')
-
+ 
