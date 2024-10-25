@@ -21,36 +21,44 @@ transformations = {
         p=1.0)
 }
 
-# Define source and destination directories
-source_dir = 'dataset/Original_dataset/Sheath Blight'
-destination_dir = 'dataset/Augmented_dataset/Sheath Blight'
+# Define the main source and destination directories
+main_source_dir = 'dataset/Original_dataset'
+main_destination_dir = 'dataset/Augmented_dataset'
 
-# Create destination directory if it does not exist
-os.makedirs(destination_dir, exist_ok=True)
+# Process each disease folder
+for disease_folder in os.listdir(main_source_dir):
+    source_dir = os.path.join(main_source_dir, disease_folder)
+    destination_dir = os.path.join(main_destination_dir, f'{disease_folder}_Augmented')
 
-# Process each image
-for image_path in glob(os.path.join(source_dir, '**', '*.*'), recursive=True):
+    # Skip if it's not a directory
+    if not os.path.isdir(source_dir):
+        continue
 
-    # Load the image with Pillow
-    image_pil = Image.open(image_path).convert('RGB')
+    # Create destination directory if it does not exist
+    os.makedirs(destination_dir, exist_ok=True)
 
-    # Convert the Pillow image to a NumPy array
-    image_np = np.array(image_pil)
+    # Process each image in the disease folder
+    for image_path in glob(os.path.join(source_dir, '**', '*.*'), recursive=True):
 
-    # Apply each transformation and save the result
-    for name, transform in transformations.items():
+        # Load the image with Pillow
+        image_pil = Image.open(image_path).convert('RGB')
 
-        # Apply the transformation
-        augmented_image = transform(image=image_np)['image']
+        # Convert the Pillow image to a NumPy array
+        image_np = np.array(image_pil)
 
-        # Convert the augmented image back to a Pillow image
-        augmented_image_pil = Image.fromarray(augmented_image)
+        # Apply each transformation and save the result
+        for name, transform in transformations.items():
 
-        # Save the transformed image with a unique filename
-        filename = os.path.basename(image_path)
-        save_path = os.path.join(destination_dir, f'{os.path.splitext(filename)[0]}_{name}_transformed.jpg')
-        augmented_image_pil.save(save_path)
-        print(f'Saved {name} transformed image to {save_path}')
+            # Apply the transformation
+            augmented_image = transform(image=image_np)['image']
+
+            # Convert the augmented image back to a Pillow image
+            augmented_image_pil = Image.fromarray(augmented_image)
+
+            # Save the transformed image with a unique filename
+            filename = os.path.basename(image_path)
+            save_path = os.path.join(destination_dir, f'{os.path.splitext(filename)[0]}_{name}_transformed.jpg')
+            augmented_image_pil.save(save_path)
+            print(f'Saved {name} transformed image for {disease_folder} to {save_path}')
 
 print('Processing completed.')
- 
